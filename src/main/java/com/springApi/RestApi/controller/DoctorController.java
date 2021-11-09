@@ -29,24 +29,25 @@ public class DoctorController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
     @GetMapping("/doctor/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('PUBLIC')")
     public ResponseEntity<Doctor> findbyid(@PathVariable("id") Long id){
         Doctor doc = docService.findById(id);
         return new ResponseEntity<>(doc,HttpStatus.OK);
     }
     @PostMapping("/doctor/add")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor){
         Doctor newDoctor = docService.addDoctor(doctor);
         return new ResponseEntity<>(newDoctor,HttpStatus.OK);
     }
     @DeleteMapping("/doctor/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> delete(@PathVariable("id") Long id){
         docService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PutMapping("/doctor/update")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Doctor> update(@RequestBody Doctor doctor){
         Doctor newDoctor = docService.addDoctor(doctor);
         return new ResponseEntity<>(newDoctor,HttpStatus.OK);
