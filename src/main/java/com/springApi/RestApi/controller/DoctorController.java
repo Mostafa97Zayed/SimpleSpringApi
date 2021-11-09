@@ -29,12 +29,12 @@ public class DoctorController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
     @GetMapping("/doctor/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Doctor> findbyid(@PathVariable("id") Long id){
         Doctor doc = docService.findById(id);
         return new ResponseEntity<>(doc,HttpStatus.OK);
     }
     @PostMapping("/doctor/add")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor){
         Doctor newDoctor = docService.addDoctor(doctor);
         return new ResponseEntity<>(newDoctor,HttpStatus.OK);

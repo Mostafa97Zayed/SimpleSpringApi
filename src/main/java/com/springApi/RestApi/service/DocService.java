@@ -5,20 +5,18 @@ import com.springApi.RestApi.Model.Doctor;
 import com.springApi.RestApi.dao.DoctorRepo;
 import com.springApi.RestApi.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class DocService {
-
-    private final DoctorRepo doctorRepo;
     @Autowired
-    public DocService(DoctorRepo doctorRepo) {
-        this.doctorRepo = doctorRepo;
-    }
+    private DoctorRepo doctorRepo;
+    @Autowired
+    private  PasswordEncoder passwordEncoder;
+
 
     public List<Doctor> getAll(){
         return doctorRepo.findAll();
@@ -33,7 +31,10 @@ public class DocService {
     }
 
     public Doctor addDoctor(Doctor doctor){
-       return doctorRepo.save(doctor);
+
+        doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
+
+        return doctorRepo.save(doctor);
      }
 
      public Doctor updateDoctor(Doctor doctor){
